@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 export default function StorePage() {
   const { id } = useParams();
-  const { user } = useAuth();
   const navigate = useNavigate();
+  const { cart, addToCart, replaceCart } = useCart();
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [ordering, setOrdering] = useState(null);
-  const [pickupDate, setPickupDate] = useState('');
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
+  const [added, setAdded] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -25,21 +22,18 @@ export default function StorePage() {
     }).finally(() => setLoading(false));
   }, [id]);
 
-  const handleOrder = async (product) => {
-    if (!user) return navigate('/login');
-    if (!pickupDate) return setError('Choisissez une date de retrait.');
-    setError('');
-    try {
-      await api.post('/orders', {
-        storeId: id,
-        totalAmount: product.price,
-        pickupDate,
-      });
-      setSuccess(`Commande pour "${product.name}" passée avec succès !`);
-      setOrdering(null);
-    } catch {
-      setError('Erreur lors de la commande.');
+  const handleAdd = (product) => {
+    if (cart.storeId && cart.storeId !== id && cart.items.length > 0) {
+      const ok = window.confirm(
+        `Votre panier contient des articles de "${cart.storeName}".\nVider le panier et ajouter cet article ?`
+      );
+      if (!ok) return;
+      replaceCart(product, id, store.name);
+    } else {
+      addToCart(product, id, store.name);
     }
+    setAdded(product.id);
+    setTimeout(() => setAdded(null), 1500);
   };
 
   if (loading) return <div className="p-8 text-center text-gray-500">Chargement...</div>;
@@ -52,11 +46,8 @@ export default function StorePage() {
         <p className="text-gray-500">📍 {store.address}</p>
       </div>
 
-      {success && (
-        <div className="bg-green-100 text-green-700 px-4 py-3 rounded-lg mb-6">{success}</div>
-      )}
-
       <h2 className="text-xl font-semibold text-gray-700 mb-4">Produits disponibles</h2>
+
       {products.length === 0 ? (
         <p className="text-gray-400">Aucun produit disponible.</p>
       ) : (
@@ -70,40 +61,33 @@ export default function StorePage() {
               {product.description && (
                 <p className="text-gray-500 text-sm mb-3">{product.description}</p>
               )}
-              {ordering === product.id ? (
-                <div className="flex flex-col gap-2 mt-2">
-                  <input
-                    type="datetime-local"
-                    value={pickupDate}
-                    onChange={(e) => setPickupDate(e.target.value)}
-                    className="border rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
-                  />
-                  {error && <p className="text-red-500 text-xs">{error}</p>}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleOrder(product)}
-                      className="flex-1 bg-green-600 text-white py-1.5 rounded-lg text-sm font-medium hover:bg-green-700"
-                    >
-                      Confirmer
-                    </button>
-                    <button
-                      onClick={() => setOrdering(null)}
-                      className="flex-1 border py-1.5 rounded-lg text-sm hover:bg-gray-50"
-                    >
-                      Annuler
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  onClick={() => { setOrdering(product.id); setSuccess(''); setError(''); }}
-                  className="mt-2 w-full bg-green-600 text-white py-1.5 rounded-lg text-sm font-medium hover:bg-green-700"
-                >
-                  Commander
-                </button>
-              )}
+              <button
+                onClick={() => handleAdd(product)}
+                className={`mt-2 w-full py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  added === product.id
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-green-600 text-white hover:bg-green-700'
+                }`}
+              >
+                {added === product.id ? '✓ Ajouté au panier' : 'Ajouter au panier'}
+              </button>
             </div>
           ))}
+        </div>
+      )}
+
+      {cart.items.length > 0 && cart.storeId === id && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+          <button
+            onClick={() => navigate('/cart')}
+            className="bg-green-600 text-white px-8 py-3 rounded-full shadow-lg font-semibold hover:bg-green-700 flex items-center gap-3"
+          >
+            <span>🛒</span>
+            <span>Voir le panier</span>
+            <span className="bg-white text-green-700 rounded-full px-2 py-0.5 text-sm font-bold">
+              {cart.items.reduce((s, i) => s + i.quantity, 0)}
+            </span>
+          </button>
         </div>
       )}
     </div>
