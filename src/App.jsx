@@ -11,6 +11,7 @@ import OrdersPage from './pages/OrdersPage';
 import ManagerPage from './pages/ManagerPage';
 import AdminPage from './pages/AdminPage';
 import CartPage from './pages/CartPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 import BackofficeLayout from './backoffice/components/BackofficeLayout';
 import BackofficeRoute from './backoffice/components/BackofficeRoute';
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/stores/:id" element={<StorePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route
                 path="/orders"
