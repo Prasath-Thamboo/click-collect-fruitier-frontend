@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
@@ -8,6 +8,10 @@ export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, clearCart, total } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  if (user?.role === 'ADMIN' || user?.role === 'MANAGER') {
+    return <Navigate to="/" replace />;
+  }
   const [pickupDate, setPickupDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

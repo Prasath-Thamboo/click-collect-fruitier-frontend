@@ -19,7 +19,8 @@ export default function Navbar() {
       </Link>
       <div className="flex items-center gap-4 text-sm">
         <Link to="/" className="hover:underline">Magasins</Link>
-        {user && <Link to="/orders" className="hover:underline">Mes commandes</Link>}
+        {user && user.role === 'CLIENT' && <Link to="/orders" className="hover:underline">Mes commandes</Link>}
+        {user && user.role === 'CLIENT' && <Link to="/account" className="hover:underline">Mon compte</Link>}
         {(user?.role === 'MANAGER' || user?.role === 'ADMIN') && (
           <Link
             to="/backoffice"
@@ -29,14 +30,16 @@ export default function Navbar() {
           </Link>
         )}
 
-        <Link to="/cart" className="relative hover:opacity-80">
-          <span className="text-xl">🛒</span>
-          {itemCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-white text-green-700 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              {itemCount}
-            </span>
-          )}
-        </Link>
+        {(!user || user.role === 'CLIENT' || user.role === 'GUEST') && (
+          <Link to="/cart" className="relative hover:opacity-80">
+            <span className="text-xl">🛒</span>
+            {itemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-white text-green-700 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+        )}
 
         {user ? (
           <div className="flex items-center gap-3">

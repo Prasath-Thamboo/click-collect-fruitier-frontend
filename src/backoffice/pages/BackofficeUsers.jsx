@@ -25,10 +25,35 @@ export default function BackofficeUsers() {
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
 
+  const [invites, setInvites] = useState([]);
+  const [inviteStoreId, setInviteStoreId] = useState('');
+  const [newCode, setNewCode] = useState('');
+  const [inviteMsg, setInviteMsg] = useState('');
+
   const fetchUsers = () => api.get('/users').then(({ data }) => setUsers(data));
   const fetchStores = () => api.get('/stores').then(({ data }) => setStores(data));
+  const fetchInvites = () => api.get('/admin/invites').then(({ data }) => setInvites(data)).catch(() => {});
 
-  useEffect(() => { fetchUsers(); fetchStores(); }, []);
+  useEffect(() => { fetchUsers(); fetchStores(); fetchInvites(); }, []);
+
+  const handleCreateInvite = async (e) => {
+    e.preventDefault();
+    setNewCode('');
+    setInviteMsg('');
+    try {
+      const { data } = await api.post('/admin/invites', { storeId: inviteStoreId });
+      setNewCode(data.code);
+      setInviteMsg(data.store.name);
+      fetchInvites();
+    } catch (err) {
+      setInviteMsg('Erreur : ' + (err.response?.data?.error || 'inconnue'));
+    }
+  };
+
+  const handleDeleteInvite = async (id) => {
+    await api.delete(`/admin/invites/${id}`).catch(() => {});
+    fetchInvites();
+  };
 
   const flash = (text, isError = false) => {
     if (isError) setError(text); else setMsg(text);
@@ -168,6 +193,76 @@ export default function BackofficeUsers() {
             </form>
           </div>
         )}
+
+        {/* Codes d'invitation manager */}
+        <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+          <h2 className="text-sm font-semibold text-gray-700 mb-1">Codes d'invitation manager</h2>
+          <p className="text-xs text-gray-400 mb-4">
+            Générez un code à usage unique lié à un magasin. Donnez-le au futur manager lors de son inscription.
+          </p>
+
+          <form onSubmit={handleCreateInvite} className="flex gap-3 items-end mb-4">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-600 mb-1">Magasin</label>
+              <select
+                value={inviteStoreId}
+                onChange={(e) => setInviteStoreId(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+              >
+                <option value="">-- Sélectionner un magasin --</option>
+                {stores.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 whitespace-nowrap"
+            >
+              Générer un code
+            </button>
+          </form>
+
+          {newCode && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center mb-4">
+              <p className="text-xs text-gray-500 mb-1">Code pour {inviteMsg}</p>
+              <p className="text-3xl font-mono font-bold text-green-700 tracking-widest">{newCode}</p>
+              <p className="text-xs text-gray-400 mt-1">À usage unique — communiquez-le au futur manager</p>
+            </div>
+          )}
+          {inviteMsg && !newCode && (
+            <p className="text-xs text-red-500 mb-2">{inviteMsg}</p>
+          )}
+
+          {invites.length > 0 && (
+            <div className="border-t pt-3 space-y-2">
+              {invites.map((inv) => (
+                <div key={inv.id} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-3">
+                    <span className={`font-mono font-bold tracking-widest ${inv.usedAt ? 'text-gray-300 line-through' : 'text-green-700'}`}>
+                      {inv.code}
+                    </span>
+                    <span className="text-gray-500">{inv.store.name}</span>
+                    {inv.usedAt ? (
+                      <span className="text-xs bg-gray-100 text-gray-400 px-2 py-0.5 rounded-full">Utilisé</span>
+                    ) : (
+                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Actif</span>
+                    )}
+                  </div>
+                  {!inv.usedAt && (
+                    <button
+                      onClick={() => handleDeleteInvite(inv.id)}
+                      className="text-xs text-red-400 hover:text-red-600"
+                    >
+                      Révoquer
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div className="space-y-3">
           {users.map((u) => {

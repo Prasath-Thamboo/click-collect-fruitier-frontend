@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function StorePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { cart, addToCart, replaceCart } = useCart();
+  const { user } = useAuth();
+  const isStaff = user?.role === 'ADMIN' || user?.role === 'MANAGER';
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,22 +64,24 @@ export default function StorePage() {
               {product.description && (
                 <p className="text-gray-500 text-sm mb-3">{product.description}</p>
               )}
-              <button
-                onClick={() => handleAdd(product)}
-                className={`mt-2 w-full py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  added === product.id
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-green-600 text-white hover:bg-green-700'
-                }`}
-              >
-                {added === product.id ? '✓ Ajouté au panier' : 'Ajouter au panier'}
-              </button>
+              {!isStaff && (
+                <button
+                  onClick={() => handleAdd(product)}
+                  className={`mt-2 w-full py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    added === product.id
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-green-600 text-white hover:bg-green-700'
+                  }`}
+                >
+                  {added === product.id ? '✓ Ajouté au panier' : 'Ajouter au panier'}
+                </button>
+              )}
             </div>
           ))}
         </div>
       )}
 
-      {cart.items.length > 0 && cart.storeId === id && (
+      {!isStaff && cart.items.length > 0 && cart.storeId === id && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
           <button
             onClick={() => navigate('/cart')}

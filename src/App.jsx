@@ -12,6 +12,15 @@ import ManagerPage from './pages/ManagerPage';
 import AdminPage from './pages/AdminPage';
 import CartPage from './pages/CartPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import AccountPage from './pages/AccountPage';
+import MentionsLegalesPage from './pages/MentionsLegalesPage';
+import PolitiqueConfidentialitePage from './pages/PolitiqueConfidentialitePage';
+import PolitiqueCookiesPage from './pages/PolitiqueCookiesPage';
+import CGVPage from './pages/CGVPage';
+import Footer from './components/Footer';
+import CookieBanner from './components/CookieBanner';
 
 import BackofficeLayout from './backoffice/components/BackofficeLayout';
 import BackofficeRoute from './backoffice/components/BackofficeRoute';
@@ -24,10 +33,14 @@ import BackofficeUsers from './backoffice/pages/BackofficeUsers';
 
 function MainLayout() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Outlet />
-    </>
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+      <CookieBanner />
+    </div>
   );
 }
 
@@ -62,7 +75,17 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/verify-email" element={<VerifyEmailPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route
+                path="/account"
+                element={<PrivateRoute><AccountPage /></PrivateRoute>}
+              />
+              <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+              <Route path="/cgv" element={<CGVPage />} />
+              <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
+              <Route path="/politique-cookies" element={<PolitiqueCookiesPage />} />
               <Route
                 path="/orders"
                 element={<PrivateRoute><OrdersPage /></PrivateRoute>}

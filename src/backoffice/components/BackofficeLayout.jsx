@@ -60,6 +60,12 @@ export default function BackofficeLayout() {
           <p className="text-slate-400 text-xs mb-3">
             {user?.role === 'ADMIN' ? 'Administrateur' : 'Manager'}
           </p>
+          <Link
+            to="/"
+            className="w-full text-left text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded hover:bg-slate-800 transition-colors flex items-center gap-1.5 mb-1"
+          >
+            ← Site principal
+          </Link>
           <button
             onClick={handleLogout}
             className="w-full text-left text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded hover:bg-slate-800 transition-colors"
