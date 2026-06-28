@@ -65,11 +65,19 @@ export default function BackofficeOrders() {
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="font-medium text-gray-800">{order.user?.email}</p>
+                        <p className="font-medium text-gray-800">
+                          {order.user?.email ?? order.guestEmail}
+                        </p>
+                        {!order.user && (
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-gray-100 text-gray-500">Invité</span>
+                        )}
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${s.color}`}>
                           {s.label}
                         </span>
                       </div>
+                      {!order.user && order.guestPhone && (
+                        <p className="text-xs text-gray-400">{order.guestPhone}</p>
+                      )}
                       <p className="text-sm text-gray-500">
                         Retrait : {new Date(order.pickupDate).toLocaleDateString('fr-FR', { dateStyle: 'long' })}
                       </p>

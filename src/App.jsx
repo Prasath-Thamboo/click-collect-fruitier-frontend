@@ -15,6 +15,8 @@ import VerifyEmailPage from './pages/VerifyEmailPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import AccountPage from './pages/AccountPage';
+import SubscriptionsPage from './pages/SubscriptionsPage';
+import NewSubscriptionPage from './pages/NewSubscriptionPage';
 import MentionsLegalesPage from './pages/MentionsLegalesPage';
 import PolitiqueConfidentialitePage from './pages/PolitiqueConfidentialitePage';
 import PolitiqueCookiesPage from './pages/PolitiqueCookiesPage';
@@ -89,6 +91,14 @@ export default function App() {
               <Route
                 path="/orders"
                 element={<PrivateRoute><OrdersPage /></PrivateRoute>}
+              />
+              <Route
+                path="/subscriptions"
+                element={<PrivateRoute><SubscriptionsPage /></PrivateRoute>}
+              />
+              <Route
+                path="/subscriptions/new"
+                element={<PrivateRoute><NewSubscriptionPage /></PrivateRoute>}
               />
               <Route
                 path="/manager"

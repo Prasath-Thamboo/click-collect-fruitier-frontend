@@ -36,7 +36,7 @@ export default function LoginPage() {
     setResendMessage('');
     try {
       await api.post('/auth/resend-verification', { email: form.email });
-      setResendMessage('Email de verification renvoye !');
+      setResendMessage('Email de vérification renvoyé !');
     } catch {
       setResendMessage('Erreur lors du renvoi.');
     } finally {
@@ -45,58 +45,82 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50">
-      <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-green-700 mb-6 text-center">Connexion</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-          />
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-          />
-          {error && (
-            <div>
-              <p className="text-red-500 text-sm">{error}</p>
-              {errorCode === 'EMAIL_NOT_VERIFIED' && (
-                <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={resendLoading}
-                  className="text-green-600 hover:underline text-sm mt-1 disabled:opacity-50"
-                >
-                  {resendLoading ? 'Envoi...' : "Renvoyer l'email de verification"}
-                </button>
-              )}
-              {resendMessage && <p className="text-green-600 text-sm mt-1">{resendMessage}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+      <div className="w-full max-w-sm">
+        {/* Card */}
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-3xl">
+              🍎
             </div>
-          )}
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50"
-          >
-            {loading ? 'Connexion...' : 'Se connecter'}
-          </button>
-        </form>
-        <div className="flex flex-col items-center gap-1 mt-4">
-          <p className="text-sm text-gray-500">
-            Pas de compte ?{' '}
-            <Link to="/register" className="text-green-600 hover:underline">S'inscrire</Link>
+          </div>
+
+          <h1 className="text-2xl font-bold text-gray-900 mb-1 text-center">Bon retour !</h1>
+          <p className="text-gray-500 text-sm text-center mb-8">Connectez-vous à votre compte</p>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-gray-700">Adresse email</label>
+              <input
+                type="email"
+                placeholder="vous@exemple.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-shadow bg-gray-50 focus:bg-white"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-medium text-gray-700">Mot de passe</label>
+                <Link to="/forgot-password" className="text-xs text-green-600 hover:text-green-700 hover:underline">
+                  Mot de passe oublié ?
+                </Link>
+              </div>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                required
+                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-shadow bg-gray-50 focus:bg-white"
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+                <p className="text-red-600 text-sm">{error}</p>
+                {errorCode === 'EMAIL_NOT_VERIFIED' && (
+                  <button
+                    type="button"
+                    onClick={handleResend}
+                    disabled={resendLoading}
+                    className="text-green-600 hover:underline text-sm mt-1 disabled:opacity-50"
+                  >
+                    {resendLoading ? 'Envoi…' : "Renvoyer l'email de vérification"}
+                  </button>
+                )}
+                {resendMessage && <p className="text-green-600 text-sm mt-1">{resendMessage}</p>}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors active:scale-95"
+            >
+              {loading ? 'Connexion…' : 'Se connecter'}
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-500 mt-6">
+            Pas encore de compte ?{' '}
+            <Link to="/register" className="text-green-600 font-medium hover:underline">
+              S'inscrire
+            </Link>
           </p>
-          <Link to="/forgot-password" className="text-sm text-gray-400 hover:underline">
-            Mot de passe oublie ?
-          </Link>
         </div>
       </div>
     </div>

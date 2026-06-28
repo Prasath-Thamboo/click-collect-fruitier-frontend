@@ -5,8 +5,8 @@ import { useAuth } from '../context/AuthContext';
 
 function Section({ title, children }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <h2 className="text-base font-semibold text-gray-700 mb-4">{title}</h2>
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 hover:border-gray-200 transition-colors">
+      <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">{title}</h2>
       {children}
     </div>
   );
@@ -105,12 +105,20 @@ export default function AccountPage() {
     }
   };
 
-  if (loading) return <div className="p-8 text-center text-gray-400">Chargement...</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center gap-3 py-24 text-gray-400">
+      <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
+      <p className="text-sm">Chargement…</p>
+    </div>
+  );
   if (!account) return null;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-6">
-      <h1 className="text-3xl font-bold text-green-700">Mon compte</h1>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-5">
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Mon compte</h1>
+        <p className="text-gray-500 text-sm mt-1">Gérez vos informations personnelles</p>
+      </div>
 
       {/* Données personnelles */}
       <Section title="Mes informations personnelles">
@@ -142,7 +150,7 @@ export default function AccountPage() {
             value={pwForm.currentPassword}
             onChange={(e) => setPwForm({ ...pwForm, currentPassword: e.target.value })}
             required
-            className="border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
           />
           <input
             type="password"
@@ -150,7 +158,7 @@ export default function AccountPage() {
             value={pwForm.newPassword}
             onChange={(e) => setPwForm({ ...pwForm, newPassword: e.target.value })}
             required
-            className="border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
           />
           <input
             type="password"
@@ -158,7 +166,7 @@ export default function AccountPage() {
             value={pwForm.confirm}
             onChange={(e) => setPwForm({ ...pwForm, confirm: e.target.value })}
             required
-            className="border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
           />
           {pwMsg.text && (
             <p className={`text-sm ${pwMsg.error ? 'text-red-500' : 'text-green-600'}`}>{pwMsg.text}</p>
@@ -166,7 +174,7 @@ export default function AccountPage() {
           <button
             type="submit"
             disabled={pwLoading}
-            className="bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50"
+            className="bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
             {pwLoading ? 'Enregistrement...' : 'Modifier le mot de passe'}
           </button>
@@ -185,7 +193,7 @@ export default function AccountPage() {
             value={emailForm.newEmail}
             onChange={(e) => setEmailForm({ ...emailForm, newEmail: e.target.value })}
             required
-            className="border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
           />
           <input
             type="password"
@@ -193,7 +201,7 @@ export default function AccountPage() {
             value={emailForm.password}
             onChange={(e) => setEmailForm({ ...emailForm, password: e.target.value })}
             required
-            className="border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
           />
           {emailMsg.text && (
             <p className={`text-sm ${emailMsg.error ? 'text-red-500' : 'text-green-600'}`}>{emailMsg.text}</p>
@@ -201,7 +209,7 @@ export default function AccountPage() {
           <button
             type="submit"
             disabled={emailLoading}
-            className="bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50"
+            className="bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
             {emailLoading ? 'Enregistrement...' : "Modifier l'adresse email"}
           </button>
@@ -217,7 +225,7 @@ export default function AccountPage() {
             </p>
             <button
               onClick={handleExport}
-              className="border border-green-600 text-green-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-50"
+              className="border border-green-200 text-green-700 px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-green-50 transition-colors"
             >
               Exporter mes données
             </button>
@@ -230,7 +238,7 @@ export default function AccountPage() {
             {!deleteStep ? (
               <button
                 onClick={() => setDeleteStep(true)}
-                className="text-red-500 hover:text-red-700 text-sm font-medium border border-red-200 px-4 py-2 rounded-lg hover:bg-red-50"
+                className="text-red-500 hover:text-red-700 text-sm font-semibold border border-red-200 px-4 py-2.5 rounded-xl hover:bg-red-50 transition-colors"
               >
                 Supprimer mon compte
               </button>
@@ -245,21 +253,21 @@ export default function AccountPage() {
                   value={deletePassword}
                   onChange={(e) => setDeletePassword(e.target.value)}
                   required
-                  className="border border-red-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                  className="border border-red-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 bg-red-50 focus:bg-white transition-shadow"
                 />
                 {deleteMsg && <p className="text-sm text-red-500">{deleteMsg}</p>}
                 <div className="flex gap-2">
                   <button
                     type="submit"
                     disabled={deleteLoading}
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+                    className="bg-red-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition-colors"
                   >
                     {deleteLoading ? 'Suppression...' : 'Confirmer la suppression'}
                   </button>
                   <button
                     type="button"
                     onClick={() => { setDeleteStep(false); setDeletePassword(''); setDeleteMsg(''); }}
-                    className="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm hover:bg-gray-50"
+                    className="border border-gray-200 text-gray-600 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
                   >
                     Annuler
                   </button>
