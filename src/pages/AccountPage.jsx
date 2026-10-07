@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import DemoNotice from '../components/ui/DemoNotice';
+import { DEMO_MODE } from '../config/demo';
 
 function Section({ title, children }) {
   return (
@@ -74,6 +76,8 @@ export default function AccountPage() {
 
   const handleChangeEmail = async (e) => {
     e.preventDefault();
+    // En démo, le lien de vérification n'arriverait jamais : le compte serait bloqué
+    if (DEMO_MODE) return;
     setEmailLoading(true);
     try {
       const { data } = await api.put('/account/email', emailForm);
@@ -116,7 +120,7 @@ export default function AccountPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-5">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Mon compte</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Mon compte</h1>
         <p className="text-gray-500 text-sm mt-1">Gérez vos informations personnelles</p>
       </div>
 
@@ -174,7 +178,7 @@ export default function AccountPage() {
           <button
             type="submit"
             disabled={pwLoading}
-            className="bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
+            className="btn-fruit py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50"
           >
             {pwLoading ? 'Enregistrement...' : 'Modifier le mot de passe'}
           </button>
@@ -186,6 +190,12 @@ export default function AccountPage() {
         <p className="text-xs text-gray-400 mb-3">
           Un email de vérification sera envoyé à la nouvelle adresse. Vous serez déconnecté automatiquement.
         </p>
+        {DEMO_MODE && (
+          <DemoNotice className="mb-3" fruit="lime" title="Changement d'email indisponible">
+            Pendant la phase de démonstration, les emails de vérification n'arrivent pas encore dans votre
+            messagerie : cette option est donc désactivée pour ne pas bloquer votre compte.
+          </DemoNotice>
+        )}
         <form onSubmit={handleChangeEmail} className="flex flex-col gap-3">
           <input
             type="email"
@@ -208,8 +218,8 @@ export default function AccountPage() {
           )}
           <button
             type="submit"
-            disabled={emailLoading}
-            className="bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
+            disabled={emailLoading || DEMO_MODE}
+            className="btn-fruit py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50"
           >
             {emailLoading ? 'Enregistrement...' : "Modifier l'adresse email"}
           </button>

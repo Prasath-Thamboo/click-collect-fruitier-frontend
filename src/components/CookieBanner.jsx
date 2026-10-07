@@ -1,47 +1,49 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Fruit from './fruits/Fruit';
+
+function hasConsent() {
+  try {
+    return Boolean(localStorage.getItem('cookie_consent'));
+  } catch {
+    return false;
+  }
+}
 
 export default function CookieBanner() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() => !hasConsent());
 
-  useEffect(() => {
-    const consent = localStorage.getItem('cookie_consent');
-    if (!consent) setVisible(true);
-  }, []);
-
-  const accept = () => {
-    localStorage.setItem('cookie_consent', JSON.stringify({ accepted: true, date: new Date().toISOString() }));
-    setVisible(false);
-  };
-
-  const refuse = () => {
-    localStorage.setItem('cookie_consent', JSON.stringify({ accepted: false, date: new Date().toISOString() }));
+  const save = (accepted) => {
+    try {
+      localStorage.setItem('cookie_consent', JSON.stringify({ accepted, date: new Date().toISOString() }));
+    } catch {
+      // stockage indisponible : on masque quand même le bandeau pour cette session
+    }
     setVisible(false);
   };
 
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
-      <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <p className="text-sm text-gray-600 flex-1">
-          Nous utilisons des cookies strictement nécessaires au fonctionnement du service (session, panier).
-          Aucun cookie publicitaire ni de tracking n'est utilisé.{' '}
-          <Link to="/politique-cookies" className="text-green-600 hover:underline">
-            En savoir plus
-          </Link>
-        </p>
-        <div className="flex gap-2 flex-shrink-0">
-          <button
-            onClick={refuse}
-            className="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm hover:bg-gray-50"
-          >
+    <div className="fixed bottom-4 inset-x-3 sm:inset-x-auto sm:right-6 sm:max-w-md z-50 animate-rise">
+      <div className="glass holo rounded-3xl p-5 !bg-night/95">
+        <div className="flex gap-4">
+          <Fruit kind="cherry" glow className="w-12 h-12 shrink-0 animate-float" />
+          <div className="flex-1">
+            <p className="hud text-mango mb-1">Cookies</p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Uniquement des cookies strictement nécessaires (session, panier). Aucun tracking, aucune pub.{' '}
+              <Link to="/politique-cookies" className="text-mint hover:underline">
+                En savoir plus
+              </Link>
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-2 mt-4">
+          <button onClick={() => save(false)} className="btn-ghost flex-1 py-2.5 rounded-xl text-sm">
             Refuser
           </button>
-          <button
-            onClick={accept}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700"
-          >
+          <button onClick={() => save(true)} className="btn-fruit flex-1 py-2.5 rounded-xl text-sm">
             Accepter
           </button>
         </div>

@@ -23,6 +23,8 @@ import PolitiqueCookiesPage from './pages/PolitiqueCookiesPage';
 import CGVPage from './pages/CGVPage';
 import Footer from './components/Footer';
 import CookieBanner from './components/CookieBanner';
+import FuturisticBackground from './components/FuturisticBackground';
+import DemoBanner from './components/DemoBanner';
 
 import BackofficeLayout from './backoffice/components/BackofficeLayout';
 import BackofficeRoute from './backoffice/components/BackofficeRoute';
@@ -35,7 +37,8 @@ import BackofficeUsers from './backoffice/pages/BackofficeUsers';
 
 function MainLayout() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen">
+      <DemoBanner />
       <Navbar />
       <main className="flex-1">
         <Outlet />
@@ -51,6 +54,7 @@ export default function App() {
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
+          <FuturisticBackground />
           <Routes>
             {/* Back office */}
             <Route path="/backoffice/login" element={<BackofficeLogin />} />

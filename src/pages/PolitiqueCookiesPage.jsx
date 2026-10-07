@@ -1,3 +1,5 @@
+import { COMPANY } from '../config/company';
+
 export default function PolitiqueCookiesPage() {
   const handleReset = () => {
     localStorage.removeItem('cookie_consent');
@@ -6,7 +8,7 @@ export default function PolitiqueCookiesPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-green-700 mb-8">Politique de cookies</h1>
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-8">Politique de cookies</h1>
       <p className="text-sm text-gray-500 mb-8">
         Conformément aux recommandations de la CNIL et à la directive ePrivacy (2002/58/CE).
       </p>
@@ -109,7 +111,7 @@ export default function PolitiqueCookiesPage() {
       <section className="mb-8">
         <h2 className="text-lg font-semibold text-gray-800 mb-3">5. Contact</h2>
         <p className="text-gray-600 text-sm">
-          Pour toute question : <strong>privacy@click-collect.fr</strong>
+          Pour toute question : <strong>{COMPANY.privacyEmail}</strong>
         </p>
       </section>
 

@@ -1,7 +1,9 @@
+import { COMPANY } from '../config/company';
+
 export default function PolitiqueConfidentialitePage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-green-700 mb-8">Politique de confidentialité</h1>
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-8">Politique de confidentialité</h1>
       <p className="text-sm text-gray-500 mb-8">
         Conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679) et à la loi
         Informatique et Libertés.
@@ -10,7 +12,7 @@ export default function PolitiqueConfidentialitePage() {
       <section className="mb-8">
         <h2 className="text-lg font-semibold text-gray-800 mb-3">1. Responsable du traitement</h2>
         <p className="text-gray-600 text-sm leading-relaxed">
-          <strong>[Nom de la société]</strong> — [Adresse] — contact@click-collect.fr
+          <strong>{COMPANY.name}</strong> — {COMPANY.address} — {COMPANY.email}
         </p>
       </section>
 
@@ -67,8 +69,8 @@ export default function PolitiqueConfidentialitePage() {
           Vos données ne sont pas vendues ni cédées à des tiers. Elles peuvent être transmises à :
         </p>
         <ul className="list-disc list-inside text-sm text-gray-600 mt-2 space-y-1">
-          <li>Notre prestataire d'hébergement ([Nom]) pour l'exploitation technique du service</li>
-          <li>Notre prestataire d'envoi d'emails ([Mailtrap/autre]) pour les notifications transactionnelles</li>
+          <li>Notre prestataire d'hébergement ({COMPANY.host.name}) pour l'exploitation technique du service</li>
+          <li>Notre prestataire d'envoi d'emails ({COMPANY.emailProvider}) pour les notifications transactionnelles</li>
         </ul>
         <p className="text-sm text-gray-600 mt-2">
           Ces prestataires agissent en qualité de sous-traitants et sont soumis aux mêmes obligations RGPD.
@@ -108,7 +110,8 @@ export default function PolitiqueConfidentialitePage() {
       <section className="mb-8">
         <h2 className="text-lg font-semibold text-gray-800 mb-3">7. Contact DPO</h2>
         <p className="text-gray-600 text-sm leading-relaxed">
-          Pour toute question relative à vos données personnelles : <strong>privacy@click-collect.fr</strong>
+          Pour toute question relative à vos données personnelles, contactez notre {COMPANY.dpo.role.toLowerCase()},
+          {COMPANY.dpo.name} : <strong>{COMPANY.privacyEmail}</strong>
         </p>
       </section>
 

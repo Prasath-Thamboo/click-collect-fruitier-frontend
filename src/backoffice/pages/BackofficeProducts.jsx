@@ -103,7 +103,7 @@ export default function BackofficeProducts() {
         <h1 className="text-xl font-semibold text-gray-800">Produits</h1>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700"
+          className="btn-fruit px-4 py-2 rounded-lg text-sm font-medium"
         >
           + Ajouter un produit
         </button>
@@ -174,7 +174,7 @@ export default function BackofficeProducts() {
               <div className="col-span-2 flex gap-2 pt-1">
                 <button
                   type="submit"
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700"
+                  className="btn-fruit px-4 py-2 rounded-lg text-sm font-medium"
                 >
                   Ajouter
                 </button>
@@ -258,7 +258,7 @@ export default function BackofficeProducts() {
                   <div className="col-span-2 flex gap-2">
                     <button
                       onClick={() => handleEditSave(p.id)}
-                      className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-green-700"
+                      className="btn-fruit px-3 py-1.5 rounded-lg text-sm"
                     >
                       Enregistrer
                     </button>

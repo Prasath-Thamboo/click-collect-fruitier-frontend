@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
+import AuthDecor from '../components/ui/AuthDecor';
+import DemoNotice from '../components/ui/DemoNotice';
+import { DEMO_MODE } from '../config/demo';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -24,9 +27,10 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+    <div className="relative min-h-[calc(100vh-7rem)] flex items-center justify-center px-4 py-16">
+      <AuthDecor />
       <div className="w-full max-w-sm">
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+        <div className="relative glass holo rounded-[2rem] p-8 sm:p-10 animate-rise">
           <div className="flex justify-center mb-6">
             <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center">
               <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,10 +39,18 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-1 text-center">Mot de passe oublié</h1>
+          <h1 className="text-3xl font-extrabold text-white mb-1 text-center">Mot de passe oublié</h1>
           <p className="text-gray-500 text-sm text-center mb-8">
             Entrez votre email et nous vous enverrons un lien de réinitialisation.
           </p>
+
+          {DEMO_MODE && (
+            <DemoNotice className="mb-6" fruit="lime">
+              Pendant la phase de démonstration, les emails sont envoyés dans une boîte de test et
+                n'arrivent pas encore dans votre messagerie. Contactez l'équipe FruityCollect pour
+              réinitialiser votre mot de passe.
+            </DemoNotice>
+          )}
 
           {message ? (
             <div className="text-center">
@@ -59,7 +71,7 @@ export default function ForgotPasswordPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
+                  className="field"
                 />
               </div>
 
@@ -72,7 +84,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
+                className="btn-fruit py-3 rounded-xl font-semibold disabled:opacity-50"
               >
                 {loading ? 'Envoi…' : 'Envoyer le lien'}
               </button>

@@ -58,7 +58,7 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">
-      <h1 className="text-3xl font-bold text-green-700">Administration</h1>
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Administration</h1>
 
       {/* Creer un magasin */}
       <form onSubmit={handleCreateStore} className="bg-white rounded-2xl shadow p-5 border border-gray-100">
@@ -79,7 +79,7 @@ export default function AdminPage() {
             className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
           />
           {storeMsg && <p className="text-sm text-green-600">{storeMsg}</p>}
-          <button type="submit" className="bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700">
+          <button type="submit" className="btn-fruit py-2 rounded-lg font-medium">
             Creer
           </button>
         </div>
@@ -127,7 +127,7 @@ export default function AdminPage() {
               <option key={s.id} value={s.id}>{s.name}</option>
             ))}
           </select>
-          <button type="submit" className="bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700">
+          <button type="submit" className="btn-fruit py-2 rounded-lg font-medium">
             Generer le code
           </button>
           {newCode && (

@@ -36,7 +36,7 @@ export default function StripePaymentForm({ onSuccess, total }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="text-sm text-gray-500 mb-1">
+      <div className="hud text-gray-500 mb-1">
         Montant à payer : <span className="font-bold text-green-700">{total.toFixed(2)} €</span>
       </div>
       <PaymentElement onReady={() => setReady(true)} />
@@ -44,7 +44,7 @@ export default function StripePaymentForm({ onSuccess, total }) {
       <button
         type="submit"
         disabled={!stripe || !ready || loading}
-        className="bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50"
+        className="btn-fruit py-4 rounded-2xl"
       >
         {!ready ? 'Chargement...' : loading ? 'Paiement en cours...' : `Payer ${total.toFixed(2)} €`}
       </button>

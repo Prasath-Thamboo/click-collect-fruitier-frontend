@@ -1,5 +1,6 @@
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import Logo from '../../components/ui/Logo';
 
 const adminNav = [
   { to: '/backoffice/dashboard', label: 'Tableau de bord', icon: '⊞' },
@@ -28,11 +29,11 @@ export default function BackofficeLayout() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
+    <div className="flex h-screen overflow-hidden">
       <aside className="w-60 bg-slate-900 text-white flex flex-col flex-shrink-0">
         <div className="px-5 py-4 border-b border-slate-700">
-          <p className="text-base font-bold text-white leading-tight">FruityCollect</p>
-          <p className="text-slate-400 text-xs mt-0.5">Back office</p>
+          <Logo className="w-8 h-8" />
+          <p className="hud text-mint mt-2">// Back office</p>
         </div>
 
         <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">

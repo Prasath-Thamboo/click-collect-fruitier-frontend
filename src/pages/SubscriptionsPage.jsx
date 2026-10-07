@@ -41,10 +41,10 @@ export default function SubscriptionsPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-green-700">Mes abonnements</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Mes abonnements</h1>
         <button
           onClick={() => navigate('/subscriptions/new')}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700"
+          className="btn-fruit px-4 py-2 rounded-lg text-sm font-semibold"
         >
           + Nouvel abonnement
         </button>
@@ -57,7 +57,7 @@ export default function SubscriptionsPage() {
           <p className="text-gray-400 mb-6">Abonnez-vous pour recevoir vos commandes automatiquement chaque semaine avec 15% de réduction.</p>
           <button
             onClick={() => navigate('/subscriptions/new')}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700"
+            className="btn-fruit px-6 py-2 rounded-lg font-medium"
           >
             Créer mon premier abonnement
           </button>

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
+import AuthDecor from '../../components/ui/AuthDecor';
+import Logo from '../../components/ui/Logo';
 
 export default function BackofficeLogin() {
   const { user, login } = useAuth();
@@ -34,14 +36,15 @@ export default function BackofficeLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <div className="relative min-h-screen flex items-center justify-center px-4">
+      <AuthDecor />
+      <div className="relative w-full max-w-sm">
         <div className="text-center mb-8">
-          <p className="text-white text-2xl font-bold">FruityCollect</p>
-          <p className="text-slate-400 text-sm mt-1">Espace administration</p>
+          <Logo className="w-12 h-12" textClassName="text-2xl" />
+          <p className="hud text-mint mt-3">// Espace administration</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="relative glass holo rounded-[2rem] p-8 animate-rise">
           <h1 className="text-lg font-semibold text-gray-800 mb-6">Connexion</h1>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
@@ -51,7 +54,7 @@ export default function BackofficeLogin() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="field"
                 placeholder="manager@example.com"
               />
             </div>
@@ -62,7 +65,7 @@ export default function BackofficeLogin() {
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="field"
               />
             </div>
             {error && (
@@ -73,7 +76,7 @@ export default function BackofficeLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-green-600 text-white py-2.5 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors mt-1"
+              className="btn-fruit py-2.5 rounded-lg font-semibold disabled:opacity-50 mt-1"
             >
               {loading ? 'Connexion...' : 'Se connecter'}
             </button>

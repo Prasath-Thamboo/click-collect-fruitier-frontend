@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import AuthDecor from '../components/ui/AuthDecor';
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -14,15 +15,16 @@ export default function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+      <div className="relative min-h-[calc(100vh-7rem)] flex items-center justify-center px-4 py-16">
+      <AuthDecor />
         <div className="w-full max-w-sm">
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 text-center">
+          <div className="relative glass holo rounded-[2rem] p-8 sm:p-10 animate-rise text-center">
             <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Lien invalide</h1>
+            <h1 className="text-3xl font-extrabold text-white mb-2">Lien invalide</h1>
             <p className="text-gray-500 text-sm mb-6">Ce lien de réinitialisation est invalide ou a expiré.</p>
             <Link to="/forgot-password" className="text-green-600 font-medium hover:underline text-sm">
               Demander un nouveau lien
@@ -52,9 +54,10 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+    <div className="relative min-h-[calc(100vh-7rem)] flex items-center justify-center px-4 py-16">
+      <AuthDecor />
       <div className="w-full max-w-sm">
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+        <div className="relative glass holo rounded-[2rem] p-8 sm:p-10 animate-rise">
           <div className="flex justify-center mb-6">
             <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center">
               <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,7 +66,7 @@ export default function ResetPasswordPage() {
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-1 text-center">Nouveau mot de passe</h1>
+          <h1 className="text-3xl font-extrabold text-white mb-1 text-center">Nouveau mot de passe</h1>
           <p className="text-gray-500 text-sm text-center mb-8">Choisissez un mot de passe sécurisé</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -75,7 +78,7 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
+                className="field"
               />
             </div>
             <div className="flex flex-col gap-1.5">
@@ -86,7 +89,7 @@ export default function ResetPasswordPage() {
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 required
-                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 bg-gray-50 focus:bg-white transition-shadow"
+                className="field"
               />
             </div>
 
@@ -99,7 +102,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
+              className="btn-fruit py-3 rounded-xl font-semibold disabled:opacity-50"
             >
               {loading ? 'Enregistrement…' : 'Réinitialiser le mot de passe'}
             </button>

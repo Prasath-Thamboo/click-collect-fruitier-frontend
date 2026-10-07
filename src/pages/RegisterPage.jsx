@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
+import AuthDecor from '../components/ui/AuthDecor';
+import DemoNotice from '../components/ui/DemoNotice';
+import { DEMO_MODE } from '../config/demo';
+import Logo from '../components/ui/Logo';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ email: '', password: '', managerCode: '' });
@@ -30,16 +34,24 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+      <div className="relative min-h-[calc(100vh-7rem)] flex items-center justify-center px-4 py-16">
+      <AuthDecor />
         <div className="w-full max-w-sm">
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 text-center">
+          <div className="relative glass holo rounded-[2rem] p-8 sm:p-10 animate-rise text-center">
             <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Vérifiez vos emails !</h1>
+            <h1 className="text-3xl font-extrabold text-white mb-2">Vérifiez vos emails !</h1>
             <p className="text-gray-500 text-sm mb-6 leading-relaxed">{success}</p>
+            {DEMO_MODE && (
+              <DemoNotice className="text-left mb-6" fruit="lime">
+                Pendant la phase de démonstration, les emails sont envoyés dans une boîte de test et
+                n'arrivent pas encore dans votre messagerie. Contactez l'équipe FruityCollect
+                pour faire activer votre compte.
+              </DemoNotice>
+            )}
             <Link
               to="/login"
               className="inline-flex items-center gap-2 text-sm text-green-600 font-medium hover:underline"
@@ -53,17 +65,18 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+    <div className="relative min-h-[calc(100vh-7rem)] flex items-center justify-center px-4 py-16">
+      <AuthDecor />
       <div className="w-full max-w-sm">
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+        <div className="relative glass holo rounded-[2rem] p-8 sm:p-10 animate-rise">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-3xl">
-              🍎
+            <div className="w-16 h-16 rounded-2xl grid place-items-center bg-black/30 border border-white/10 shadow-[0_0_40px_-10px_rgba(255,61,127,.8)]">
+              <Logo withText={false} className="w-11 h-11" />
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-1 text-center">Créer un compte</h1>
+          <h1 className="text-3xl font-extrabold text-white mb-1 text-center">Créer un compte</h1>
           <p className="text-gray-500 text-sm text-center mb-8">Rejoignez FruityCollect</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -75,7 +88,7 @@ export default function RegisterPage() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
-                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent bg-gray-50 focus:bg-white transition-shadow"
+                className="field"
               />
             </div>
 
@@ -87,7 +100,7 @@ export default function RegisterPage() {
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
-                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent bg-gray-50 focus:bg-white transition-shadow"
+                className="field"
               />
             </div>
 
@@ -111,7 +124,7 @@ export default function RegisterPage() {
                   placeholder="Code d'invitation (ex: A3F9B2)"
                   value={form.managerCode}
                   onChange={(e) => setForm({ ...form, managerCode: e.target.value.toUpperCase() })}
-                  className="mt-3 border border-gray-200 rounded-xl px-4 py-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-green-400 font-mono tracking-widest uppercase bg-gray-50"
+                  className="field mt-3 font-mono tracking-widest uppercase"
                   maxLength={12}
                 />
               )}
@@ -126,7 +139,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors active:scale-95"
+              className="btn-fruit py-3 rounded-xl font-semibold disabled:opacity-50 active:scale-95"
             >
               {loading ? 'Création du compte…' : "Créer mon compte"}
             </button>

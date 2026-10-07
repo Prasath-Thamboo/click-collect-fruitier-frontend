@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import api from '../api/axios';
+import AuthDecor from '../components/ui/AuthDecor';
+import Fruit from '../components/fruits/Fruit';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
@@ -26,18 +28,23 @@ export default function VerifyEmailPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50">
-      <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-sm text-center">
+    <div className="relative min-h-[calc(100vh-7rem)] flex items-center justify-center px-4 py-16">
+      <AuthDecor />
+      <div className="relative glass holo rounded-[2rem] p-8 sm:p-10 w-full max-w-sm text-center animate-rise">
         {status === 'loading' && (
-          <p className="text-gray-500">Vérification en cours...</p>
+          <>
+            <Fruit kind="lemon" glow className="w-16 h-16 mx-auto mb-4 animate-spin-slow" />
+            <p className="hud text-gray-500">Vérification en cours…</p>
+          </>
         )}
         {status === 'success' && (
           <>
-            <h1 className="text-2xl font-bold text-green-700 mb-3">Email confirmé !</h1>
+            <Fruit kind="kiwi" glow className="w-20 h-20 mx-auto mb-5 animate-float" />
+            <h1 className="text-3xl font-extrabold text-white mb-3">Email confirmé !</h1>
             <p className="text-gray-600 mb-6">{message}</p>
             <Link
               to="/login"
-              className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700"
+              className="btn-fruit px-7 py-3 rounded-2xl"
             >
               Se connecter
             </Link>
@@ -45,7 +52,8 @@ export default function VerifyEmailPage() {
         )}
         {status === 'error' && (
           <>
-            <h1 className="text-2xl font-bold text-red-600 mb-3">Lien invalide</h1>
+            <Fruit kind="cherry" glow className="w-20 h-20 mx-auto mb-5 animate-float" />
+            <h1 className="text-3xl font-extrabold text-white mb-3">Lien invalide</h1>
             <p className="text-gray-600 mb-6">{message}</p>
             <Link to="/login" className="text-green-600 hover:underline text-sm">
               Retour à la connexion

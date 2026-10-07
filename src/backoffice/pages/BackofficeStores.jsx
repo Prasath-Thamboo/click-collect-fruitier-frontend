@@ -87,7 +87,7 @@ export default function BackofficeStores() {
             </div>
             <button
               type="submit"
-              className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 flex-shrink-0"
+              className="btn-fruit px-4 py-2 rounded-lg text-sm font-medium flex-shrink-0"
             >
               Créer
             </button>
@@ -118,7 +118,7 @@ export default function BackofficeStores() {
                   <div className="flex gap-2 flex-shrink-0">
                     <button
                       onClick={() => handleEditSave(store.id)}
-                      className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-700"
+                      className="btn-fruit px-3 py-2 rounded-lg text-sm"
                     >
                       Enregistrer
                     </button>

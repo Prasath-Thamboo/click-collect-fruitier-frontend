@@ -4,6 +4,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import api from '../api/axios';
 import StripePaymentForm from '../components/StripePaymentForm';
+import { stripeAppearance } from '../components/stripeAppearance';
+import DemoNotice from '../components/ui/DemoNotice';
+import { DEMO_MODE } from '../config/demo';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -29,6 +32,7 @@ export default function NewSubscriptionPage() {
   const [intentData, setIntentData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [demoBlocked, setDemoBlocked] = useState(false);
 
   useEffect(() => {
     api.get('/stores').then(({ data }) => setStores(data.filter((s) => s.isActive)));
@@ -57,6 +61,10 @@ export default function NewSubscriptionPage() {
 
   const handleGoToPayment = async () => {
     setError('');
+    if (DEMO_MODE) {
+      setDemoBlocked(true);
+      return;
+    }
     setLoading(true);
     try {
       const { data } = await api.post('/subscriptions/create-intent', {
@@ -90,7 +98,7 @@ export default function NewSubscriptionPage() {
       <button onClick={() => navigate('/subscriptions')} className="text-gray-400 hover:text-gray-600 text-sm mb-4">
         ← Retour
       </button>
-      <h1 className="text-2xl font-bold text-green-700 mb-6">Nouvel abonnement</h1>
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-6">Nouvel abonnement</h1>
 
       {/* Step indicator */}
       <div className="flex items-center gap-2 mb-8">
@@ -122,7 +130,7 @@ export default function NewSubscriptionPage() {
           <button
             disabled={!selectedStore}
             onClick={() => setStep(2)}
-            className="mt-4 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50"
+            className="mt-4 btn-fruit py-3 rounded-lg font-semibold disabled:opacity-50"
           >
             Suivant →
           </button>
@@ -166,7 +174,7 @@ export default function NewSubscriptionPage() {
             <button
               disabled={itemList.length === 0}
               onClick={() => setStep(3)}
-              className="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50"
+              className="flex-1 btn-fruit py-3 rounded-lg font-semibold disabled:opacity-50"
             >
               Suivant →
             </button>
@@ -221,12 +229,19 @@ export default function NewSubscriptionPage() {
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
+          {demoBlocked && (
+            <DemoNotice title="Les abonnements ouvrent bientôt" fruit="grape">
+              FruityCollect est encore en phase de démonstration : la souscription et le prélèvement mensuel
+              ne sont pas encore actifs. Aucun montant ne vous sera demandé.
+            </DemoNotice>
+          )}
+
           <div className="flex gap-3 mt-2">
             <button onClick={() => setStep(2)} className="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg hover:bg-gray-50">← Retour</button>
             <button
               disabled={selectedDays.length === 0 || loading}
               onClick={handleGoToPayment}
-              className="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50"
+              className="flex-1 btn-fruit py-3 rounded-lg font-semibold disabled:opacity-50"
             >
               {loading ? 'Chargement...' : 'Passer au paiement →'}
             </button>
@@ -242,9 +257,9 @@ export default function NewSubscriptionPage() {
             <p className="text-xl font-bold text-green-700 mt-1">{intentData.monthlyAmount.toFixed(2)} € / mois</p>
             <p className="text-xs text-gray-400 mt-0.5">Renouvellement automatique — annulable à tout moment</p>
           </div>
-          <Elements stripe={stripePromise} options={{ clientSecret: intentData.clientSecret, locale: 'fr' }}>
+          <Elements stripe={stripePromise} options={{ clientSecret: intentData.clientSecret, locale: 'fr', appearance: stripeAppearance }}>
             <StripePaymentForm
-              onSuccess={(paymentIntentId) => handlePaymentSuccess(intentData.stripeSubscriptionId)}
+              onSuccess={() => handlePaymentSuccess(intentData.stripeSubscriptionId)}
               total={intentData.monthlyAmount}
             />
           </Elements>

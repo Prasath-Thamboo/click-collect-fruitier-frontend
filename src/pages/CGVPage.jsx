@@ -1,7 +1,9 @@
+import { COMPANY } from '../config/company';
+
 export default function CGVPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-green-700 mb-8">Conditions Générales de Vente</h1>
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-8">Conditions Générales de Vente</h1>
       <p className="text-sm text-gray-500 mb-8">
         En passant une commande sur FruityCollect, vous acceptez les présentes CGV.
       </p>
@@ -10,7 +12,7 @@ export default function CGVPage() {
         <h2 className="text-lg font-semibold text-gray-800 mb-3">1. Objet</h2>
         <p className="text-gray-600 text-sm leading-relaxed">
           Les présentes Conditions Générales de Vente régissent les relations contractuelles entre
-          <strong> [Nom de la société]</strong> (ci-après « FruityCollect ») et tout client
+          <strong> {COMPANY.name}</strong> (ci-après « FruityCollect ») et tout client
           (ci-après « le Client ») passant commande via le service de click & collect en ligne.
         </p>
       </section>
@@ -89,7 +91,7 @@ export default function CGVPage() {
         <h2 className="text-lg font-semibold text-gray-800 mb-3">9. Litiges et droit applicable</h2>
         <p className="text-gray-600 text-sm leading-relaxed">
           Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera
-          recherchée en priorité. À défaut, les tribunaux compétents du ressort de [Ville] seront saisis.<br /><br />
+          recherchée en priorité. À défaut, les tribunaux compétents du ressort de {COMPANY.courtCity} seront saisis.<br /><br />
           Le Client peut également recourir à la médiation de la consommation via la plateforme européenne
           de règlement en ligne des litiges : <span className="text-green-600">ec.europa.eu/consumers/odr</span>
         </p>

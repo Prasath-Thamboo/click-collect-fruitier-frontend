@@ -114,7 +114,7 @@ export default function BackofficeUsers() {
         <h1 className="text-xl font-semibold text-gray-800">Utilisateurs</h1>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700"
+          className="btn-fruit px-4 py-2 rounded-lg text-sm font-medium"
         >
           + Créer un utilisateur
         </button>
@@ -178,7 +178,7 @@ export default function BackofficeUsers() {
               <div className="col-span-2 flex gap-2 pt-1">
                 <button
                   type="submit"
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700"
+                  className="btn-fruit px-4 py-2 rounded-lg text-sm font-medium"
                 >
                   Créer
                 </button>
@@ -218,7 +218,7 @@ export default function BackofficeUsers() {
             </div>
             <button
               type="submit"
-              className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 whitespace-nowrap"
+              className="btn-fruit px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap"
             >
               Générer un code
             </button>
@@ -304,7 +304,7 @@ export default function BackofficeUsers() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEditSave(u.id)}
-                        className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-700"
+                        className="btn-fruit px-3 py-2 rounded-lg text-sm"
                       >
                         Enregistrer
                       </button>
